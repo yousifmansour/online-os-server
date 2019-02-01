@@ -1,16 +1,21 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var fs = require('fs');
+
+var https = require('https');
+
+var express = require('express');
+var app = express();
+
+var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/privkey.pem').toString();
+var certificate = fs.readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/fullchain.pem').toString();
+var options = {key: privateKey, cert: certificate};
+
+var server = https.createServer(options, app);
+var io = require('socket.io')(server);
+
+var cors = require('cors');
+app.use(cors());
 
 var db = require('./models');
-
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
 
 io.on('connection', (socket) => {
     console.log("Socket connected: " + socket.id);
@@ -71,6 +76,6 @@ app.get('/state', (req, res) => {
         );
 });
 
-http.listen(5000, () => {
+server.listen(5000, () => {
     console.log('listening on 5000');
 });
