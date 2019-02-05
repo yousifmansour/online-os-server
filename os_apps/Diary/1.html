@@ -1,0 +1,88 @@
+<html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="/online-os-diaries/styles.css">
+    </head>
+    <body>
+        <h1>Weeks 0 and 1 (Jan 21 - Feb 01)</h1>
+
+        <p>
+            <em>This is a summary of what&#39;s done till now</em>
+        </p>
+
+        <h2>The demo</h2>
+
+        <p>During these two weeks, I created a demo of the online os. The demo has a
+            simple calculator and note taking apps that maintain their state.</p>
+
+        <p>The state of the os, which includes which apps are open, and the state of the
+            open apps, is maintained and communicated to a server, which makes sure that the
+            same state exists on any number of connected clients.</p>
+
+        <p>Any state update is sent to all connected clients. It is also saved to a
+            database so that it is persisted.</p>
+
+        <p>The front end (client side) of the os uses React,
+            <a href="https://reactjs.org/">(a JavaScript library)</a>.</p>
+
+        <p>The state of the applications (including which ones are open) is maintained
+            by Redux,
+            <a href="https://redux.js.org/">a state container</a>
+            that acts as the single source of information for all state in the applicaiton.</p>
+
+        <p>A node service on the back end sets up socket.io,
+            <a href="https://socket.io/">enabling real-time communication with the clients</a>.</p>
+
+        <p>MongoDB is used as the database. Node uses Mongoose,
+            <a href="https://mongoosejs.com/">a mongodb object modelling library</a>
+            to interface with it.</p>
+
+        <h2>The way state is maintained</h2>
+
+        <p>The redux state is just a JavaScript object that is defined with a
+            <em>reducer function</em>
+            that handles updates. The reducer function receives actions that are
+            <em>dispatched</em>
+            by the app, and updates the state of what&#39;s called
+            <em>a store</em>.
+        </p>
+
+        <p>Actions have a
+            <em>type</em>
+            and a
+            <em>payload</em>. Redux checks for the type of the action, and updates the
+            corresponding part of the state with the payload as defined in the reducer
+            function.</p>
+
+        <p>Redux allows for middleware functions to be defined. These intercept actions
+            before they are dispatched and processed, and are able to do things before and
+            after dispatching the actions.</p>
+
+        <p>I&#39;m using a middleware to send any action that is dispatched by a client
+            to the server. The server then
+            <em>broadcasts</em>
+            the action it receives to other clients that are connected (if any). The other
+            clients then dispatch the action they receive from the server (so that it&#39;s
+            applied to their local state), which achieves the required behavior of having
+            the state changes synced on all clients when its updated on any one of them.</p>
+
+        <p>At the same time, another middleware sends the whole state to be saved by the
+            server on the database. This is needed for the state to be persisted when all
+            clients disconnect.
+        </p>
+
+        <p>This is done asynchronously, although more efficient ways of sending only
+            parts of state that have changed would be better.</p>
+
+        <p>When a new client connects, it asks the server for the latest state and
+            receives it from the database. Subsequent state updates are received through
+            actions broadcast by the server, which is efficient.</p>
+
+        <p>Below is a diagram that shows the flow of state between connected clients and
+            the server:</p>
+
+        <p><img
+            src="online-os/State%20flow.png"
+            alt=""></p>
+    </body>
+</html>

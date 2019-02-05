@@ -1,15 +1,27 @@
 var fs = require('fs');
 
+// var http = require('http');
+
 var https = require('https');
 
 var express = require('express');
 var app = express();
 
-var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/privkey.pem').toString();
-var certificate = fs.readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/fullchain.pem').toString();
-var options = {key: privateKey, cert: certificate};
+var privateKey = fs
+    .readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/privkey.pem')
+    .toString();
+var certificate = fs
+    .readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/fullchain.pem')
+    .toString();
+var options = {
+    key: privateKey,
+    cert: certificate
+};
 
 var server = https.createServer(options, app);
+
+server = http.createServer(app);
+
 var io = require('socket.io')(server);
 
 var cors = require('cors');
@@ -74,6 +86,14 @@ app.get('/state', (req, res) => {
                 });
             }
         );
+});
+
+app.get('/diaries', (req, res) => {
+    let diary = fs
+        .readFileSync('./os_apps/Diary/1.html')
+        .toString();
+
+    res.send(diary);
 });
 
 server.listen(5000, () => {
