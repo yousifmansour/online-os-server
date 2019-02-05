@@ -20,8 +20,6 @@ var options = {
 
 var server = https.createServer(options, app);
 
-server = http.createServer(app);
-
 var io = require('socket.io')(server);
 
 var cors = require('cors');
