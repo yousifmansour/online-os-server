@@ -86,12 +86,18 @@ app.get('/state', (req, res) => {
         );
 });
 
-app.get('/diaries', (req, res) => {
+app.get('/diaries/:week', (req, res) => {
+	let week = req.params.week;
     let diary = fs
-        .readFileSync('./os_apps/Diary/1.html')
+        .readFileSync('./os_apps/Diary/' + week + '.html')
         .toString();
 
     res.send(diary);
+});
+
+app.get('/diaries',(req, res)=>{
+	let diaries = fs.readdirSync('./os_apps/Diary/');
+	res.send(diaries);
 });
 
 server.listen(5000, () => {
