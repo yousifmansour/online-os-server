@@ -1,0 +1,84 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title></head><body><h1>Week 3 (Feb 11-15)</h1>
+
+<h2>Refactoring &hellip;</h2>
+
+<p>This online os can be thought of being composed
+of two parts. First part is the system, this includes
+the Home page and Recent Apps Page. The second part
+is the user applications, including everything else.</p>
+
+<p>The project structure should reflect that as much as
+possible.</p>
+
+<p>This is how it looks like:</p>
+
+<p>src/actions
+src/reducers</p>
+
+<p>src/system
+          /components
+          /containers</p>
+
+<p>src/applications
+          /components
+          /containers</p>
+
+<p>Actions and reducers folders setup redux state for 
+the whole os.</p>
+
+<p>Components and containers is a pattern used in React.
+Components hold files responsible for displaying data
+given to them, and they have no state (or very minimal 
+state). Containers on the other hand, prepare state 
+and other data and pass them down to components to be
+displayed.</p>
+
+<p>Containers therefore contain most of the logic, whereas
+components contain most of the styling for an 
+application.</p>
+
+<p>This structure is nice and increases readability and
+predictability.</p>
+
+<h2>Animations</h2>
+
+<p>CSS allows for keyframe animations to be defined. These
+are rather simple, but they do add to the overall 
+experience. Most of the animations are will be fine
+tuned as I see fit.</p>
+
+<p>The setup includes a file called Animations.css which
+is available for all system and user applications.</p>
+
+<p>This allows for animations to be reused between 
+different applications.</p>
+
+<h2>Hammerjs</h2>
+
+<p>Hammer js is a library that helps implementing touch
+gestures. I want to use this so that cards in the 
+recent apps page can be swiped away to close the
+application. I&#39;m still figuring out how it works.</p>
+
+<h2>Other things</h2>
+
+<p>1) It would be nice if a preview of the running app can be
+shown in the recent apps page like all operating 
+systems do. This would require either rendering the 
+app in the recent apps page (might be inefficient) or
+for a screenshot to be taken for each app when the user
+exits so that it can be shown in recent apps (more 
+tricky).</p>
+
+<p>2) The back button currently basically uses the history
+object of the browser to go back. It should ideally 
+undo changes in the current app and eventually close it
+instead.</p>
+
+<h2>For next week</h2>
+
+<p>1) I will try to work on the &ldquo;other things&rdquo;.</p>
+
+<p>2) I will work on improving the current apps and fixing
+any other problems that might arise with them.</p>
+</body></html>
