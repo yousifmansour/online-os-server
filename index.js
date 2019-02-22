@@ -18,6 +18,7 @@ var options = {
     cert: certificate
 };
 
+// var server = http.createServer(app);
 var server = https.createServer(options, app);
 
 var io = require('socket.io')(server);
@@ -26,6 +27,36 @@ var cors = require('cors');
 app.use(cors());
 
 var db = require('./models');
+
+// CREATE NOTE FOR USER
+
+/*
+db
+    .Note
+    .remove({}, () => console.log('removed notes'));
+
+    db
+    .User
+    .findOne({
+        name: 'sudo'
+    }, (error, user) => {
+        // create notes
+        db
+            .Note
+            .create({
+                user: user._id,
+                notes: [
+                    {
+                        id: 0,
+                        text: 'from server'
+                    }
+                ],
+                nextID: 1
+            }, () => console.log('created notes for user'));
+    });
+*/
+
+// CREATE NOTE FOR USER
 
 io.on('connection', (socket) => {
     console.log("Socket connected: " + socket.id);
@@ -43,6 +74,30 @@ io.on('connection', (socket) => {
             });
     });
     socket.on('update state', (newState) => {
+        if (newState.notes.notes !== null) {
+            // there was a note udpate, save notes in db
+            db
+                .User
+                .findOne({
+                    name: 'sudo'
+                }, (error, user) => {
+                    if (!error) {
+                        db
+                            .Note
+                            .findOneAndUpdate({
+                                user: user._id
+                            }, {
+                                notes: newState.notes.notes,
+                                nextID: newState.notes.nextID
+                            }, (error, state) => {
+                                if (!error) {
+                                    console.log('updated notes');
+                                };
+                            });
+                    }
+                });
+        }
+
         // set state of global to new state
         db
             .User
@@ -86,18 +141,35 @@ app.get('/state', (req, res) => {
         );
 });
 
+app.get('/notes', (req, res) => {
+    db
+        .User
+        .findOne({
+            name: 'sudo'
+        }, (error, user) => {
+            if (!error) 
+                db.Note.findOne({
+                    user: user._id
+                }, (error, note) => {
+                    if (!error) {
+                        res.send({notes: note.notes, nextID: note.nextID});
+                    }
+                });
+            }
+        );
+});
+
 app.get('/diaries/:week', (req, res) => {
-	let week = req.params.week;
+    let week = req.params.week;
     let diary = fs
         .readFileSync('./os_apps/Diary/' + week + '.html')
         .toString();
-
     res.send(diary);
 });
 
-app.get('/diaries',(req, res)=>{
-	let diaries = fs.readdirSync('./os_apps/Diary/');
-	res.send(diaries);
+app.get('/diaries', (req, res) => {
+    let diaries = fs.readdirSync('./os_apps/Diary/');
+    res.send(diaries);
 });
 
 server.listen(5000, () => {
