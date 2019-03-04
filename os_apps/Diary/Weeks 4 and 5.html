@@ -1,0 +1,62 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title></title></head><body><h1>Weeks 4 and 5 (Feb 18, March 01)</h1>
+
+<p>For this period the goal was to improve the notes and
+calculator apps so that they can be a bit more
+visually pleasing and have some useful functionality.</p>
+
+<p>Notes app now persists notes in the database (and
+therefore can allow multiple notes). They are loaded
+into memory (redux state) when the app is loaded.</p>
+
+<p>Calculator is a slightly modified version of the open
+source calculator example provided by Andrew Farmer.</p>
+
+<p>Most of the work on these was on thinking what the
+simple apps should be able to do, and getting the UI 
+elements just right (mostly).</p>
+
+<h2>Other things</h2>
+
+<p>During this period other issues presented themselves. </p>
+
+<p>The back button for instance, currently just uses the
+browser history to go back to the previous URL. It does
+not relate to the current app that is running. This is
+not how operating systems should work. </p>
+
+<p>Therefore this is something that needs to be solved 
+somehow.</p>
+
+<p>The app that&#39;s running should somehow override the role
+of the back button to do what is suitable for it.</p>
+
+<p>The cards that show the recent apps also needed 
+improvements. Using react-draggable, it was simple to
+make them &ldquo;draggable&rdquo; in the x-axis direction, although
+some issues remain to be solved when scrolling as that
+interferes with the react component thinking the user
+is trying to drag the card in the y-axis.</p>
+
+<p>Animations in react can be controlled in a more precise
+manner than simple CSS animations using a module that
+it has. I also should find time for researching this.</p>
+
+<p>HTML iframes if implemented correctly (wrapped in react 
+components) can make the desktop experience very close
+to that of normal desktop environments.</p>
+
+<h2>Next week</h2>
+
+<p>The official (scheduled) goals for the coming 2 weeks
+are to 1) create a file system backend that is useable
+from the frontend and 2) create a file manager that 
+supports uploading and downloading files.</p>
+
+<p>I hope to be able to do this in less than the scheduled
+2 weeks so that I can work on some of the other things
+that weren&#39;t &ldquo;scheduled&rdquo;.</p>
+
+<p>The schedule and timing that I have made is also
+very conservative and therefore hopefully will allow 
+for this.</p>
+</body></html>
