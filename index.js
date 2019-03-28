@@ -11,6 +11,12 @@ var app = express();
 var cors = require('cors');
 app.use(cors());
 
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 var privateKey = fs
     .readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/privkey.pem')
     .toString();
@@ -24,16 +30,12 @@ var options = {
 
 app.use('/', routes);
 
+app.use(express.static('os_apps/Files'));
+
 // var server = http.createServer(app);
 var server = https.createServer(options, app);
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
-app.use(express.static('os_apps/Files'));
 
 var setupSocketIo = require('./socketIoConfig');
 setupSocketIo(server);
