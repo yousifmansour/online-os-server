@@ -19,26 +19,26 @@ let seedDB = () => {
                                 user: user._id,
                                 state: {}
                             }, (error) => {
-                                if (!error) 
-                                    console.log('seeding done');
+                                if (!error) {
+                                    db
+                                        .Note
+                                        .remove({}, () => console.log('removed notes'));
+                                    db
+                                        .Note
+                                        .create({
+                                            user: user._id,
+                                            notes: [
+                                                {
+                                                    id: 0,
+                                                    text: 'from server'
+                                                }
+                                            ],
+                                            nextID: 1
+                                        }, () => console.log('created notes for user'));
                                 }
-                            );
+                                console.log('seeding done');
+                            });
                     });
-                db
-                    .Note
-                    .remove({}, () => console.log('removed notes'));
-                db
-                    .Note
-                    .create({
-                        user: user._id,
-                        notes: [
-                            {
-                                id: 0,
-                                text: 'from server'
-                            }
-                        ],
-                        nextID: 1
-                    }, () => console.log('created notes for user'));
 
             } else 
                 console.log('no seeding needed')
