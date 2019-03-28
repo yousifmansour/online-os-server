@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1/online-os-v0', {useNewUrlParser: true});
+mongoose.connect('mongodb://127.0.0.1/online-os', {useNewUrlParser: true});
 
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;

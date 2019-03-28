@@ -1,9 +1,11 @@
 var express = require('express');
 var routes = require('./routes');
 var https = require('https');
-var fs = require('fs');
 // var http = require('http');
+var fs = require('fs');
 
+var seedDB = require('./seedDB');
+seedDB();
 var app = express();
 app.use(express.static('os_apps/Files'));
 
@@ -22,6 +24,7 @@ var options = {
 };
 
 app.use('/', routes);
+
 // var server = http.createServer(app);
 var server = https.createServer(options, app);
 

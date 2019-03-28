@@ -13,7 +13,10 @@ router.get('/', (req, res) => {
                     user: user._id
                 }, (error, note) => {
                     if (!error) {
-                        res.send({notes: note.notes, nextID: note.nextID});
+                        if (note) 
+                            res.send({notes: note.notes, nextID: note.nextID});
+                        else 
+                            res.send({notes: [], nextID: 1})
                     }
                 });
             }
