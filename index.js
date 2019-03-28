@@ -9,13 +9,20 @@ seedDB();
 var app = express();
 
 var cors = require('cors');
-app.use(cors());
+
+const corsOptions = {
+    origin: process.env.CORS_ALLOW_ORIGIN || '*',
+    methods: [
+        'GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'
+    ],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 
 // app.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
+// res.header("Access-Control-Allow-Origin", "*");
+// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With,
+// Content-Type, Accept");     next(); });
 
 var privateKey = fs
     .readFileSync('/etc/letsencrypt/live/www.yousifmansour.space/privkey.pem')
@@ -34,8 +41,6 @@ app.use(express.static('os_apps/Files'));
 
 // var server = http.createServer(app);
 var server = https.createServer(options, app);
-
-
 
 var setupSocketIo = require('./socketIoConfig');
 setupSocketIo(server);
