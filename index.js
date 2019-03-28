@@ -7,7 +7,6 @@ var fs = require('fs');
 var seedDB = require('./seedDB');
 seedDB();
 var app = express();
-app.use(express.static('os_apps/Files'));
 
 var cors = require('cors');
 app.use(cors());
@@ -33,6 +32,8 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+app.use(express.static('os_apps/Files'));
 
 var setupSocketIo = require('./socketIoConfig');
 setupSocketIo(server);
