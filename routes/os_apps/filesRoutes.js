@@ -17,7 +17,7 @@ router.post('/upload', (req, res) => {
     let uploadFile = req.files.file;
 
     const fileName = req.files.file.name;
-    uploadFile.mv(`Files/home/${path + '/' + fileName}`, function (err) {
+    uploadFile.mv(`os_apps/Files/home/${path + '/' + fileName}`, function (err) {
         if (err) {
             console.log(err);
             return res
