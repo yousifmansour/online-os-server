@@ -62,14 +62,14 @@ router.get('/download', (req, res) => {
         console.log(err);
         res.send(err);
     } else 
-        res.download(`Files/home/${path}`);
+        res.download(`os_apps/Files/home/${path}`);
     }
 );
 
 router.delete('/delete', (req, res) => {
     let path = req.body.path;
     console.log(path);
-    let homePath = 'Files/home';
+    let homePath = 'os_apps/Files/home';
 
     if (fs.lstatSync(homePath + path).isDirectory()) 
         fs.rmdir(homePath + path, (err) => {

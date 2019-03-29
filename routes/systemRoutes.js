@@ -15,9 +15,10 @@ router.get('/state', (req, res) => {
                     if (!error) {
                         if (!state.state) 
                             res.send({});
-                        res.send(state.state);
-                    }
-                });
+                        else 
+                            res.send(state.state);
+                        }
+                    });
             }
         );
 });
